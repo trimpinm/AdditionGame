@@ -22,8 +22,8 @@ struct ProblemModel: Identifiable {
         self.level = level
         //initialize numbers
         //number size increases as level increases, difficulty
-        let lower = (level - 1) * 5
-        let upper = level * 5
+        let lower = level * 5
+        let upper = (level + 1) * 5
         self.number1 = Int.random(in: lower...upper)
         self.number2 = Int.random(in: lower...upper)
         let answer = number1 + number2
@@ -31,9 +31,9 @@ struct ProblemModel: Identifiable {
         var newSolution: [Int] = []
         newSolution.append(answer) //correct solution[0]
         newSolution.append(answer + 10) //distraction
-        let belowAnswer = max(0, answer - 5)
+        let belowAnswer = answer - 5
         let aboveAnswer = answer + 5
-        newSolution.append(Int.random(in: answer...aboveAnswer))
+        newSolution.append(Int.random(in: answer+1...aboveAnswer))
         newSolution.append(Int.random(in: belowAnswer..<answer))
         self.solutions = newSolution
         }

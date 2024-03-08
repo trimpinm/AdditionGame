@@ -3,9 +3,9 @@
 import SwiftUI
 
 struct AdditionGameView: View {
-    @StateObject private var gameViewModel = AdditionGameViewModel()
+    private var gameViewModel = AdditionGameViewModel()
     
-    @EnvironmentObject private var highScoreVM:
+    @Environment(HighScoreViewModel.self) private var highScoreVM:
     HighScoreViewModel
     
     @State private var highScoreViewIsPresented = false
@@ -60,17 +60,19 @@ struct AdditionGameView: View {
                             gameViewModel.reset()
                             })
         {
-            Text("Enter New High Score!")
+            EnterNewHighScoreView(
+                score: gameViewModel.score,
+                name: $name,
+                isPresented: $highScoreViewIsPresented
+            ) //$ is for binding objects
         }
-        .onChange(
-            of: showHighScore,
-            perform: {newValue in
-                highScoreViewIsPresented = newValue
-            })
+        .onChange(of: showHighScore) {
+            highScoreViewIsPresented = showHighScore
+        }
     }
 }
 
 #Preview {
     AdditionGameView()
-        .environmentObject(HighScoreViewModel())
+        .environment(HighScoreViewModel())
 }

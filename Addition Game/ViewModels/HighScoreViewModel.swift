@@ -1,11 +1,12 @@
 
 import Foundation
 import CoreData
+import Observation
 
-class HighScoreViewModel: ObservableObject{
+@Observable class HighScoreViewModel{
     let container: NSPersistentContainer
     
-    @Published var highScores: [HighScoreEntity] = []
+    var highScores: [HighScoreEntity] = []
     
     var minHighScore: Int64? {
         if highScores.isEmpty {
@@ -87,6 +88,12 @@ class HighScoreViewModel: ObservableObject{
         container.viewContext.delete(entity)
         
         saveHighScore()
+    }
+    
+    func deleteScore( indexSet: IndexSet){
+        guard let index = indexSet.first else {return}
+        let entity = highScores[index]
+        deleteHighScore(entity: entity)
     }
     
     
